@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  react-vite-site:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: react_vite_site
+    ports:
+      - "3000:3000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.react-vite-site.rule=Host(`meusite.com`)"
+      - "traefik.http.routers.react-vite-site.entrypoints=websecure"
+      - "traefik.http.routers.react-vite-site.tls=true"
+      - "traefik.http.routers.react-vite-site.tls.certresolver=myresolver"
+      - "traefik.docker.network=web"
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
